@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.79.0">
+    <title>Login </title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="{{url_for('static',filename='css/login.css')}}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+    <main class="form-signin">
+        {% for categories, message in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{categories}}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        <form action="/login" method="post">
+            {{ form.hidden_tag() }}
+            <img class="mb-4" src="{{url_for('static',filename='img/favicon.png')}}" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal"> Login </h1>
+            <fieldset>          
+                  <div>
+                    {{ form.email.label(class="Visually-hidden") }}
+                      {% if form.email.errors %}
+                        {{ form.email(class="form-control is-invalid") }}
+                       <div class="invalid-feedback">
+                          {% for error in form.email.errors %}
+                          <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ form.email(class="form-control") }}
+                      {% endif %}
+                  </div>
+          
+                  <div>
+                    {{ form.password.label(class="Visually-hidden") }}
+                     {% if form.password.errors %}
+                        {{ form.password(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                          {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {{ form.password(class="form-control") }}
+                      {% endif %}
+                  </div>
+                  <div class="checkbox mb-3">
+                    {{ form.remember(class="form-check-input") }}
+                    {{ form.remember.label(class="form-check-label") }}
+                  </div>
+            </fieldset>
+            <div>
+                {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
+            </div>
+            <small class="text-muted ml-2">
+                <a href="#">Forget password</a>
+            </small>
+            <p class="mt-5 mb-3 text-muted">&copy; {{params['web_name']}} 2017-2020</p>
+        </form>
+        <span>New user? <a style="text-decoration: none;" href="{{ (url_for('register')) }}">Regester </a> </span>
+    </main>
+</body>
+
+</html>

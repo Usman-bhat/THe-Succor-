@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.79.0">
+  <title>Register</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
+
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet">
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link href="{{url_for('static',filename='css/login.css')}}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+
+  <main class="form-signin">
+    {% for categories, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{categories}}">
+      {{ message }}
+    </div>
+    {% endfor %}
+
+
+    <form action="/register" method="post">
+      {{ form.hidden_tag() }}
+      <img class="mb-4" src="{{url_for('static',filename='img/favicon.png')}}" alt="" width="72" height="57">
+      <h1 class="h3 mb-3 fw-normal">Register here</h1>
+      <fieldset>
+        <div class="form-group">
+          {{ form.username.label(class="form-control-label") }}
+            {% if form.username.errors %}
+              {{ form.username(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.username.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.username(class="form-control") }}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+          {{ form.email.label(class="Visually-hidden") }}
+            {% if form.email.errors %}
+              {{ form.email(class="form-control is-invalid") }}
+             <div class="invalid-feedback">
+                {% for error in form.email.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+             </div>
+            {% else %}
+              {{ form.email(class="form-control") }}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+          {{ form.ph_no.label(class="Visually-hidden") }}
+           {% if form.ph_no.errors %}
+              {{ form.ph_no(class="form-control is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.ph_no.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.ph_no(class="form-control") }}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+          {{ form.password.label(class="Visually-hidden") }}
+           {% if form.password.errors %}
+              {{ form.password(class="form-control is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.password.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.password(class="form-control") }}
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+          {{ form.confpass.label(class="Visually-hidden") }}
+           {% if form.confpass.errors %}
+              {{ form.confpass(class="form-control is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.confpass.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.confpass(class="form-control") }}
+            {% endif %}
+        </div>
+
+      </fieldset>
+      <div class="form-group">
+        {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
+      </div>
+      <p class="mt-5 mb-3 text-muted">&copy; {{params['web_name']}} 2017-2020</p>
+    </form>
+
+    <span>Already a user? <a style="text-decoration: none;" href="{{ (url_for('login')) }}">Login </a> </span>
+  </main>
+
+</body>
+
+</html>

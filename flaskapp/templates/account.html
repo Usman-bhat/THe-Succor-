@@ -1,0 +1,332 @@
+{% extends "layout.html" %}
+{% block body %}
+{% for categories, message in get_flashed_messages(with_categories=true) %}
+<p class="alert alert-{{categories}}">{{ message }}</p>
+{% endfor %}
+<style>
+    body {
+        margin-top: 100px;
+        color: #bcd0f7;
+        background: #1A233A;
+    }
+
+    .account-settings .user-profile {
+        margin: 0 0 1rem 0;
+        padding-bottom: 1rem;
+        text-align: center;
+    }
+
+    .account-settings .user-profile .user-avatar {
+        margin: 0 0 1rem 0;
+    }
+
+    .account-settings .user-profile .user-avatar img {
+        width: 90px;
+        height: 90px;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+        border-radius: 100px;
+    }
+
+    .account-settings .user-profile h5.user-name {
+        margin: 0 0 0.5rem 0;
+    }
+
+    .account-settings .user-profile h6.user-email {
+        margin: 0;
+        font-size: 0.8rem;
+        font-weight: 400;
+    }
+
+    .account-settings .about {
+        margin: 1rem 0 0 0;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+
+    .card {
+        background: #272E48;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        border: 0;
+        margin-bottom: 1rem;
+    }
+
+    .form-control {
+        border: 1px solid #596280;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        font-size: .825rem;
+        background: #1A233A;
+        color: #bcd0f7;
+    }
+</style>
+</head>
+
+<body>
+    <div class="container" id="usman">
+        <div class="row gutters">
+
+            <!-- profile info -->
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="account-settings">
+                            <div class="user-profile">
+                                <div class="user-avatar">
+                                    <img src="{{ user_ppic }}" alt="{{ current_user.username }} image">
+                                </div>
+                                <h5 class="user-name">{{ current_user.username }}</h5>
+                                <h6 class="user-email">{{ current_user.email }}</h6>
+                            </div>
+                            <div class="about">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#profileModalCenter">
+                                    Update Profile
+                                </button>
+                                <br><br><br>
+                                <h5 class="mb-2 text-primary">About Me</h5>
+                                <hr>
+                                <p>{{ current_user.about_me }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- posts table -->
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                <table class="table table-secondary">
+                    <thead>
+                        {% if posts %}
+
+                        <tr>
+                            <th scope="col">Sno</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Date Posted</th>
+                            <th scope="col"> </th>
+                            <th scope="col"> </th>
+                        </tr>
+                        {% for post in posts %}
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">{{ post.sno }}</th>
+                            <td> <a href="/post/{{ post.slug }}"> {{ post.title }} </a> </td>
+                            <td>{{ post.date }} </td>
+                            <td>
+                                <a href="/account/edit_post/{{ post.sno }}">
+                                    <button class="btn btn-primary"> Edit </button>
+                                </a>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#deleteModal">Delet</button>
+                            </td>
+                    </tbody>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <h1>. No Post Yet .</h1>
+                    </tr>
+                    {% endif %}
+                </table>
+                <!-- new post -->
+                <div class="center">
+                    <a href="{{url_for('new_post')}}">
+                        <button class="w-100 btn btn-lg btn-primary"> Add New Post</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- Modal for delete alert -->
+     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteModalLabel">Delete POst</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Do you Really want to delete This Post?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <a href="/delete/{{posts.sno}}">
+                <button type="button" class="btn btn-secondary">wwCancel</button>
+              </a>
+              <!-- <form action="{{ url_for('delete_post', sno=sno) }}" method="POST">
+                  <input type="submit" class="btn btn-danger" value="Delete Post">
+              </form> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      
+      
+    <!-- Modal form profile edit  -->
+    <div class="modal fade" id="profileModalCenter" tabindex="-1" role="dialog" aria-labelledby="profileModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content bg-secondary">
+            <div class="modal-header">
+              <h5 class="modal-title" id="profileModalLongTitle">Update Profile</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body ">
+                <form action="/register" method="post" enctype='multipart/form-data'>
+                    {{ form.hidden_tag() }}
+                    <img class="mb-4" src="{{ user_ppic }}" alt="" width="72" height="57">
+                        <div class="form-group">
+                            {{ form.img_file.label() }}
+                            {{ form.img_file(class="form-control form-control-lg") }}
+                            {% if form.img_file.errors %}
+                            {% for error in form.img_file.errors %}
+                            <span class="text-danger">{{ error }}</span> <br>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.username.label(class="form-control-label") }}
+                            {% if form.username.errors %}
+                            {{ form.username(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.username(class="form-control") }}
+                            {% endif %}
+                        </div>
+            
+                        <div class="form-group">
+                            {{ form.email.label(class="Visually-hidden") }}
+                            {% if form.email.errors %}
+                            {{ form.email(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.email(class="form-control") }}
+                            {% endif %}
+                        </div>
+            
+                        <div class="form-group">
+                            {{ form.ph_no.label(class="Visually-hidden") }}
+                            {% if form.ph_no.errors %}
+                            {{ form.ph_no(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.ph_no.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.ph_no(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.about_me.label(class="Visually-hidden") }}
+                            {% if form.about_me.errors %}
+                            {{ form.about_me(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.about_me.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.about_me(class="form-control") }}
+                            {% endif %}
+                        </div>
+            
+                    
+                    <p class="mt-5 mb-3 text-muted">&copy; {{params['web_name']}} 2017-2020</p>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+              {{ form.submit(class="btn btn-primary") }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- Modal form post edit  -->
+        <div class="modal fade" id="edit_post" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-toggle="editpost">
+            <div class="modal-body modal-dialog-centered" role="document" id="exampleModalCenter">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <form action="/register" method="post" enctype='multipart/form-data'>
+                                {{ form.hidden_tag() }}
+                                <img class="mb-4" src="{{ user_ppic }}" alt="" width="72" height="57">
+                                <h1 class="h3 mb-3 fw-normal">Update Profile</h1>
+                                <fieldset>
+                                    <div class="form-group">
+                                        {{ form.title.label(class="form-control-label") }}
+                                        {% if form.title.errors %}
+                                        {{ form.title(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.title.errors %}
+                                            <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.title(class="form-control") }}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-group">
+                                        {{ form.content.label(class="Visually-hidden") }}
+                                        {% if form.content.errors %}
+                                        {{ form.content(class="form-control is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.content.errors %}
+                                            <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        {{ form.content(class="form-control") }}
+                                        {% endif %}
+                                    </div>
+
+                                </fieldset>
+                                <div class="form-group">
+                                    {{ form.submit(class="w-100 btn btn-lg btn-primary") }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.img_file.label() }}
+                                    {{ form.img_file(class="form-control-file") }}
+                                    {% if form.img_file.errors %}
+                                    {% for error in form.img_file.errors %}
+                                    <span class="text-danger">{{ error }}</span> <br>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <!-- <div class="form-group">
+                            <a href="{{url_for('account')}}">  <button class="w-100 btn btn-lg btn-primary">cancel</button>  </a>
+                        </div>
+                        <p class="mt-5 mb-3 text-muted">&copy; {{params['web_name']}} 2017-2020</p>  -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+
+            <script>
+                $('#myModal').on('shown.bs.modal', function () {
+                    $('#myInput').trigger('focus')
+                })
+            </SCript>
+
+            {% endblock %}

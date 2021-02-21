@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block body %}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{url_for('static',filename='img/post-bg.jpg')}}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>{{ post.title }}</h1>
+            <span class="subheading">post sub headding</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  {% if post.user_id == current_user.id %}
+    <div class="col-xs-1 text-center">
+      <p>You can edit/delete the post here also</p>
+      <!-- edit post  -->
+      <a href="/account/edit_post/{{ post.sno }}">
+        <button class="btn btn-primary mr-5"> Update Post </button>
+      </a>
+      <!-- delete post  -->
+      <a href="/account #deleteModal">
+        <button class="btn btn-primary mr-5"> Delete Post </button>
+      </a>
+      <button class="btn btn-danger ml-5">Delete Post</button>
+    </div>
+  {% endif  %}
+  
+  <hr>
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          {{ post.content }}
+          <p>posted by
+            <a href="http://spaceipsum.com/">{{ post.user_id }}</a>. Posted at
+            <a href="https://www.flickr.com/photos/nasacommons/">{{ post.date }}</a>.</p>
+        </div>
+      </div>
+    </div>
+  </article>
+  {% endblock %}

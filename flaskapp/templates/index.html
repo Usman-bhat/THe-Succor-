@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('{{url_for('static',filename='img/home-bg.jpg')}}')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="site-heading">
+          <h1>{{params['web_name']}}</h1>
+          <span class="subheading">Come {{ current_user.username }} and be a Succor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<hr>
+{% for categories, message in get_flashed_messages(with_categories=true) %}
+<div id="success">
+  <p class="alert alert-{{categories}}">{{ message }}</p>
+</div>
+{% endfor %}
+<!-- Main Content -->
+{% for post in posts %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      <div class="post-preview">
+        <a href="/post/{{ post.slug }}">
+          <h2 class="post-title">
+            {{ post.title }}
+          </h2>
+          <h3 class="post-subtitle">
+            {{ post.content[0:100] }}...
+          </h3>
+        </a>
+        <p class="post-meta">Posted by
+          <a href="#">
+            {{ post.author.username }}
+          </a>
+          on {{ post.date }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+{% endfor %}
+<hr>
+<!-- Pager -->
+<div class="clearfix container col-lg-8 col-md-10 mx-auto post-preview">
+  <a class="btn btn-primary float-right" href="#"> Next &rarr;</a>
+</div>
+
+
+{% endblock %}

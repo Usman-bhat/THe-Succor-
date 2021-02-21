@@ -1,0 +1,33 @@
+{
+  "params":
+  {
+    "local_server": "True",
+    "local_uri": "mysql://root:@localhost/TheSuccor",
+    "prod_uri": "mysql://root:@localhost/TheSuccor",
+
+
+
+    "web_name": "The Succor",
+    "location": "Batagund Verinag Anantnag jammu and kashmir ",
+    "number_post": 3,
+
+
+
+
+
+    "loc_email": "bhattusman39@gmail.com",
+    "loc_phone": "+91 7780818683",
+    "fb_url": "https://facebook.com/TheSuccor",
+    "insta_url": "https://instagram.com/TheSuccor",
+    "ytube_url": "https://youtube.com/channel/UCn1GsIDJVyFeRXNNDlzap4w",
+    "tw_url": "https://twitter.com/TheSuccor",
+    "lin_url": "https://linkedin.com/TheSuccor",
+
+    "admin_user": "usman",
+    "admin_password": "usman11"
+
+
+
+  }
+
+}

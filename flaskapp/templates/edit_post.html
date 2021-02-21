@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block body %}
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1></h1>
+            <span class="subheading">You {{current_user}}can edit your post here</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+    <!-- Main Content -->
+    <div class="container center">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {% for categories, message in get_flashed_messages(with_categories=true) %}
+                <div id="success">
+                    <p class="alert alert-{{categories}}">{{ message }}</p>
+                </div>
+                {% endfor %}
+                <form action="/account/edit_post/{{sno}}" method="POST">
+                    <fieldset>
+                        <div class="form-group">
+                            {{ form.title.label }}
+                            {% if form.title.errors %}
+                            {{ form.title(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.title(class="form-control", placeholder="title") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.slug.label }}
+                            {% if form.slug.errors %}
+                            {{ form.slug(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.slug.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.slug(class="form-control", placeholder="slug") }}
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.content.label(class="exampleFormControlTextarea1") }}
+                            {% if form.content.errors %}
+                            {{ form.content(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.content.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.content(class="form-control",id="exampleFormControlTextarea1", rows="8", placeholder="content") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <br>
+                    <div class="container center">
+                        {{ form.submit(class="w-30 btn btn btn-primary") }}
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
